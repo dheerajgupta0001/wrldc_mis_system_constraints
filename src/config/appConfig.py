@@ -10,5 +10,6 @@ def getConfig(configFilename='config.xlsx') -> IAppConfig:
     """
 
     df = pd.read_excel(configFilename, header=None, index_col=0)
+    #print(df)
     configDict = df[1].to_dict()
     return configDict
