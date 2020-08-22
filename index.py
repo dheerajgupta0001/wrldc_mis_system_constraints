@@ -38,7 +38,7 @@ appDbConnStr = appConfig['appDbConStr']
 
 # transmission constraints data fetcher
 transmissionData= fetchTransmissionConstraintForDate(systemConstraintFolderPath, startDate)
-print(type(transmissionData))
+#print(type(transmissionData))
 
 # ict constraints data fetcher
 ictData= fetchICTconstraintForDate(systemConstraintFolderPath, startDate)
@@ -54,4 +54,4 @@ lowVoltageData= fetchLowVoltageForDate(systemConstraintFolderPath, startDate)
 transmisssionDataRepo = TransmissionSummaryRepo(appDbConnStr)
 isInsSuccess = transmisssionDataRepo.pushTransmissionRecord(transmissionData)
 
-print(isInsSuccess)
+#print(isInsSuccess)

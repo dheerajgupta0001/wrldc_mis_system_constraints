@@ -47,15 +47,15 @@ class TransmissionSummaryRepo():
                                         for x in range(len(keyNames))])
 
             # delete the rows which are already present
-            existingTransmissionData = [(x['dataDate'])
+            existingTransmissionData = [(x['dataDate'],)
                                   for x in transmissionDataRecords]
-            #print(transmissionDataRecords)
             cursor.executemany(
                 "delete from mis_warehouse.transmission_constraint_data where DATA_DATE=:1", existingTransmissionData)
-
+            
             # insert the raw data
             sql_insert = "insert into mis_warehouse.transmission_constraint_data({0}) values ({1})".format(
                 ','.join(colNames), sqlPlceHldrsTxt)
+            
             cursor.execute("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD' ")
             cursor.executemany(sql_insert, [tuple(
                 [r[col] for col in keyNames]) for r in transmissionDataRecords])
