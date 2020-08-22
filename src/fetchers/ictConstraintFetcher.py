@@ -23,7 +23,7 @@ def fetchICTconstraintForDate(ICTconstraintFolderPath: str, targetDt: dt.datetim
 
     # read excel file
     excelDf = pd.read_excel(targetFilePath)
-    excelDf['dateDate']=targetDt
+    excelDf['dataDate']=targetDt
     del excelDf['Sl. No']
     # rename columns to suite output requirements
     excelDf.rename(columns={

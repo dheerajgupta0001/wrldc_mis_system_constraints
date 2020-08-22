@@ -23,7 +23,7 @@ def fetchLowVoltageForDate(LowNodeFolderPath: str, targetDt: dt.datetime) -> Lis
 
     # read excel file
     excelDf = pd.read_excel(targetFilePath)
-    excelDf['dateDate']=targetDt
+    excelDf['dataDate']=targetDt
     del excelDf['Sl. No']
     #print(excelDf)
     # rename columns to suite output requirements

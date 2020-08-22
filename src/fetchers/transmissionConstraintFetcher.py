@@ -24,7 +24,7 @@ def fetchTransmissionConstraintForDate(transmissionConstraintFolderPath: str, ta
 
     # read excel file
     excelDf = pd.read_excel(targetFilePath)
-    excelDf['dateDate']=targetDt
+    excelDf['dataDate']=targetDt
     #excelDf.rename(columns={'Sl. No ': 'Date'}, inplace=True)
     del excelDf['Sl. No']
     #print(excelDf)

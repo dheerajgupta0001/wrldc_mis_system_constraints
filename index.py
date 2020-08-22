@@ -12,6 +12,7 @@ from src.fetchers.transmissionConstraintFetcher import fetchTransmissionConstrai
 from src.fetchers.ictConstraintFetcher import fetchICTconstraintForDate
 from src.fetchers.nodeHighVoltageFetcher import fetchHighVoltageForDate
 from src.fetchers.nodeLowVoltageFetcher import fetchLowVoltageForDate
+from src.repos.insertTransmissionRecord import TransmissionSummaryRepo
 
 # get an instance of argument parser from argparse module
 parser = argparse.ArgumentParser()
@@ -47,3 +48,10 @@ highVoltageData= fetchHighVoltageForDate(systemConstraintFolderPath, startDate)
 
 # node experiencing high voltage data fetcher
 lowVoltageData= fetchLowVoltageForDate(systemConstraintFolderPath, startDate)
+
+# pushing Transmission Data to database
+# get the instance of Transmission repository
+transmisssionDataRepo = TransmissionSummaryRepo(appDbConnStr)
+isInsSuccess = transmisssionDataRepo.pushTransmissionRecord(transmissionData)
+
+print(isInsSuccess)
