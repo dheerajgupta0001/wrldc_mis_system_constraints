@@ -13,8 +13,11 @@ from src.fetchers.ictConstraintFetcher import fetchICTconstraintForDate
 from src.fetchers.nodeHighVoltageFetcher import fetchHighVoltageForDate
 from src.fetchers.nodeLowVoltageFetcher import fetchLowVoltageForDate
 from src.repos.insertTransmissionRecord import TransmissionSummaryRepo
+from src.repos.insertIctRecord import IctSummaryRepo
+from src.repos.insertHighVoltageRecord import HighVoltageSummaryRepo
+from src.repos.insertLowVoltageRecord import LowVoltageSummaryRepo
 
-# get an instance of argument parser from argparse module
+'''# get an instance of argument parser from argparse module
 parser = argparse.ArgumentParser()
 
 # get start date from command line
@@ -28,7 +31,7 @@ args = parser.parse_args()
 
 startDate = dt.datetime.strptime(args.start_date, '%Y-%m-%d')
 print(type(startDate))
-
+'''
 # get application config inn the form of dictionary
 appConfig = getConfig()
 print(appConfig)
@@ -37,21 +40,52 @@ systemConstraintFolderPath = appConfig['systemConstraintFolderPath']
 appDbConnStr = appConfig['appDbConStr']
 
 # transmission constraints data fetcher
-transmissionData= fetchTransmissionConstraintForDate(systemConstraintFolderPath, startDate)
+transmissionData= fetchTransmissionConstraintForDate(systemConstraintFolderPath)
 #print(type(transmissionData))
 
 # ict constraints data fetcher
-ictData= fetchICTconstraintForDate(systemConstraintFolderPath, startDate)
+ictData= fetchICTconstraintForDate(systemConstraintFolderPath)
 
 # node experiencing high voltage data fetcher
-highVoltageData= fetchHighVoltageForDate(systemConstraintFolderPath, startDate)
+highVoltageData= fetchHighVoltageForDate(systemConstraintFolderPath)
 
 # node experiencing high voltage data fetcher
-lowVoltageData= fetchLowVoltageForDate(systemConstraintFolderPath, startDate)
+lowVoltageData= fetchLowVoltageForDate(systemConstraintFolderPath)
 
-# pushing Transmission Data to database
+
 # get the instance of Transmission repository
 transmisssionDataRepo = TransmissionSummaryRepo(appDbConnStr)
+# pushing Transmission constraints Data to database
 isInsSuccess = transmisssionDataRepo.pushTransmissionRecord(transmissionData)
+if isInsSuccess:
+    print("transmission constraints data insertion successful")
+else:
+    print("transmission constraints data insertion UNsuccessful")
 
-#print(isInsSuccess)
+# get the instance of ICT repository
+ictDataRepo = IctSummaryRepo(appDbConnStr)
+# pushing ICT constraints Data to database
+isInsSuccess = ictDataRepo.pushIctRecord(ictData)
+if isInsSuccess:
+    print("ict constraints data insertion successful")
+else:
+    print("ict constraints data insertion UNsuccessful")
+    
+# get the instance of Nodes experiencing High Voltage repository
+highVoltageDataRepo = HighVoltageSummaryRepo(appDbConnStr)
+# pushing Nodes experiencing High Voltage Data to database
+isInsSuccess = highVoltageDataRepo.pushHighVoltageRecord(highVoltageData)
+if isInsSuccess:
+    print("Nodes experiencing high Voltage data insertion successful")
+else:
+    print("Nodes experiencing high Voltage data insertion UNsuccessful")
+    
+# get the instance of Nodes experiencing LOW Voltage repository
+lowVoltageDataRepo = LowVoltageSummaryRepo(appDbConnStr)
+# pushing Nodes experiencing LOW Voltage Data to database
+isInsSuccess = lowVoltageDataRepo.pushLowVoltageRecord(lowVoltageData)
+if isInsSuccess:
+    print("Nodes experiencing low Voltage data insertion successful")
+else:
+    print("Nodes experiencing low Voltage data insertion UNsuccessful")
+ 

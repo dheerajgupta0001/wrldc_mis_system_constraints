@@ -5,16 +5,15 @@ import os
 import pandas as pd
 
 
-def fetchHighVoltageForDate(HighNodeFolderPath: str, targetDt: dt.datetime) -> List[IConstraintSummary]:
+def fetchHighVoltageForDate(HighNodeFolderPath: str) -> List[IConstraintSummary]:
     """fetched transmission constraint data for a quarter
     Args:
         targetDt (dt.datetime): date for which quarter is to be extracted
     Returns:
         List[IPairAngleSummary]: list of transmission records fetched from the excel data
     """
-    # sample excel filename - ANGLES__05_08_2020.xlsx
-    fileDateStr = dt.datetime.strftime(targetDt, '%d_%m_%Y')
-    targetFilename = 'NodesExperiencingHighVoltage__{0}.xlsx'.format(fileDateStr)
+    # sample excel filename - Nodes Experiencing High Voltage.xlsx
+    targetFilename = 'Nodes Experiencing High Voltage.xlsx'
     targetFilePath = os.path.join(HighNodeFolderPath, targetFilename)
 
     # check if excel file is present
@@ -23,7 +22,6 @@ def fetchHighVoltageForDate(HighNodeFolderPath: str, targetDt: dt.datetime) -> L
 
     # read excel file
     excelDf = pd.read_excel(targetFilePath)
-    excelDf['dataDate']=targetDt
     del excelDf['Sl. No']
 
     # rename columns to suite output requirements
@@ -38,5 +36,6 @@ def fetchHighVoltageForDate(HighNodeFolderPath: str, targetDt: dt.datetime) -> L
 
     # convert dataframe to list of dictionaries
     highVoltageRecords = excelDf.to_dict('records')
+    #print(highVoltageRecords)
 
     return highVoltageRecords

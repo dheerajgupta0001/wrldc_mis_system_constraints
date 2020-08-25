@@ -36,8 +36,8 @@ class TransmissionSummaryRepo():
             return isInsertSuccess
         try:
             # keyNames names of the raw data
-            keyNames = ['corridor', 'seasonAntecedent', 'description', 'dataDate']
-            colNames = ['CORRIDOR', 'SEASON_ANTECEDENT', 'DESCRIPTION_CONSTRAINTS','DATA_DATE']
+            keyNames = ['StartDate', 'EndDate', 'corridor', 'seasonAntecedent', 'description']
+            colNames = ['START_DATE', 'END_DATE', 'CORRIDOR', 'SEASON_ANTECEDENT', 'DESCRIPTION_CONSTRAINTS']
             # get cursor for raw data table
             cursor=connection.cursor()
             print("connection version :{0}".format(connection.version))
@@ -47,10 +47,10 @@ class TransmissionSummaryRepo():
                                         for x in range(len(keyNames))])
 
             # delete the rows which are already present
-            existingTransmissionData = [(x['dataDate'],)
+            existingTransmissionData = [(x['StartDate'], x['EndDate'])
                                   for x in transmissionDataRecords]
             cursor.executemany(
-                "delete from mis_warehouse.transmission_constraint_data where DATA_DATE=:1", existingTransmissionData)
+                "delete from mis_warehouse.transmission_constraint_data where START_DATE=:1 and END_DATE=:2", existingTransmissionData)
             
             # insert the raw data
             sql_insert = "insert into mis_warehouse.transmission_constraint_data({0}) values ({1})".format(

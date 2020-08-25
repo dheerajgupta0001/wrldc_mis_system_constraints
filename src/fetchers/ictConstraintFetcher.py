@@ -5,16 +5,15 @@ import os
 import pandas as pd
 
 
-def fetchICTconstraintForDate(ICTconstraintFolderPath: str, targetDt: dt.datetime) -> List[IConstraintSummary]:
+def fetchICTconstraintForDate(ICTconstraintFolderPath: str) -> List[IConstraintSummary]:
     """fetched transmission constraint data for a quarter
     Args:
         targetDt (dt.datetime): date for which quarter is to be extracted
     Returns:
         List[IPairAngleSummary]: list of transmission records fetched from the excel data
     """
-    # sample excel filename - ANGLES__05_08_2020.xlsx
-    fileDateStr = dt.datetime.strftime(targetDt, '%d_%m_%Y')
-    targetFilename = 'ICTconstraint__{0}.xlsx'.format(fileDateStr)
+    # sample excel filename - ICT Constraints.xlsx
+    targetFilename = 'ICT Constraints.xlsx'
     targetFilePath = os.path.join(ICTconstraintFolderPath, targetFilename)
 
     # check if excel file is present
@@ -23,7 +22,6 @@ def fetchICTconstraintForDate(ICTconstraintFolderPath: str, targetDt: dt.datetim
 
     # read excel file
     excelDf = pd.read_excel(targetFilePath)
-    excelDf['dataDate']=targetDt
     del excelDf['Sl. No']
     # rename columns to suite output requirements
     excelDf.rename(columns={
@@ -37,5 +35,6 @@ def fetchICTconstraintForDate(ICTconstraintFolderPath: str, targetDt: dt.datetim
 
     # convert dataframe to list of dictionaries
     ictRecords = excelDf.to_dict('records')
-
+    #print(ictRecords)
+    
     return ictRecords

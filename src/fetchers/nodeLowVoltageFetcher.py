@@ -5,16 +5,15 @@ import os
 import pandas as pd
 
 
-def fetchLowVoltageForDate(LowNodeFolderPath: str, targetDt: dt.datetime) -> List[IConstraintSummary]:
+def fetchLowVoltageForDate(LowNodeFolderPath: str) -> List[IConstraintSummary]:
     """fetched transmission constraint data for a quarter
     Args:
         targetDt (dt.datetime): date for which quarter is to be extracted
     Returns:
         List[IPairAngleSummary]: list of transmission records fetched from the excel data
     """
-    # sample excel filename - ANGLES__05_08_2020.xlsx
-    fileDateStr = dt.datetime.strftime(targetDt, '%d_%m_%Y')
-    targetFilename = 'NodesExperiencingLowVoltage__{0}.xlsx'.format(fileDateStr)
+    # sample excel filename - Nodes Experiencing Low Voltage.xlsx
+    targetFilename = 'Nodes Experiencing Low Voltage.xlsx'
     targetFilePath = os.path.join(LowNodeFolderPath, targetFilename)
 
     # check if excel file is present
@@ -23,9 +22,8 @@ def fetchLowVoltageForDate(LowNodeFolderPath: str, targetDt: dt.datetime) -> Lis
 
     # read excel file
     excelDf = pd.read_excel(targetFilePath)
-    excelDf['dataDate']=targetDt
     del excelDf['Sl. No']
-    #print(excelDf)
+    
     # rename columns to suite output requirements
     excelDf.rename(columns={
         "Nodes": "corridor",
@@ -38,5 +36,6 @@ def fetchLowVoltageForDate(LowNodeFolderPath: str, targetDt: dt.datetime) -> Lis
 
     # convert dataframe to list of dictionaries
     lowVoltageRecords = excelDf.to_dict('records')
+    #print(lowVoltageRecords)
 
     return lowVoltageRecords

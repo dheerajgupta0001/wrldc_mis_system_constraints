@@ -3,7 +3,8 @@ import datetime as dt
 
 
 class IConstraintSummary(TypedDict):
-    dataDate: dt.datetime
+    StartDate: dt.datetime
+    EndDate: dt.datetime
     corridor: str
     seasonAntecedent: str
     description: str
