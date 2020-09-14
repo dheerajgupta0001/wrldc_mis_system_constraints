@@ -4,20 +4,30 @@ from typing import List
 import os
 import pandas as pd
 
+def getIctConstraintFilePath(ictConstraintFolderPath: str) -> str:
+    """get the file path of Ict Constraints excel file from an input folder
 
-def fetchICTconstraintForDate(ICTconstraintFolderPath: str) -> List[IConstraintSummary]:
-    """fetched transmission constraint data for a quarter
     Args:
-        targetDt (dt.datetime): date for which quarter is to be extracted
+        ictConstraintFolderPath (str): path of folder to search for
+
     Returns:
-        List[IPairAngleSummary]: list of transmission records fetched from the excel data
+        str: file path of desired excel file that contains ICT Constraints Data
     """
     # sample excel filename - ICT Constraints.xlsx
     targetFilename = 'ICT Constraints.xlsx'
-    targetFilePath = os.path.join(ICTconstraintFolderPath, targetFilename)
+    targetFilePath = os.path.join(ictConstraintFolderPath, targetFilename)
 
-    # check if excel file is present
-    if not os.path.isfile(targetFilePath):
+    return targetFilePath
+
+
+def fetchIctConstraintForDate(targetFilePath: str) -> List[IConstraintSummary]:
+    """fetched ict constraint data for a quarter
+    Args:
+        targetFilePath (str): date for which quarter is to be extracted
+    Returns:
+        List[IConstraintSummary]: list of ict records fetched from the excel data
+    """
+    if isinstance(targetFilePath, str) and not(targetFilePath == ''):
         return []
 
     # read excel file

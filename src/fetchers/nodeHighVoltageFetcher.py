@@ -4,20 +4,29 @@ from typing import List
 import os
 import pandas as pd
 
+def getHighVoltageNodeFilePath(highNodeFolderPath: str) -> str:
+    """get the file path of High Voltage Node excel file from an input folder
 
-def fetchHighVoltageForDate(HighNodeFolderPath: str) -> List[IConstraintSummary]:
-    """fetched transmission constraint data for a quarter
     Args:
-        targetDt (dt.datetime): date for which quarter is to be extracted
+        highNodeFolderPath (str): path of folder to search for
+
     Returns:
-        List[IPairAngleSummary]: list of transmission records fetched from the excel data
+        str: file path of desired excel file that contains High Voltage Node Data
     """
     # sample excel filename - Nodes Experiencing High Voltage.xlsx
     targetFilename = 'Nodes Experiencing High Voltage.xlsx'
-    targetFilePath = os.path.join(HighNodeFolderPath, targetFilename)
+    targetFilePath = os.path.join(highNodeFolderPath, targetFilename)
 
-    # check if excel file is present
-    if not os.path.isfile(targetFilePath):
+    return targetFilePath
+
+def fetchHighVoltageForDate(targetFilePath: str) -> List[IConstraintSummary]:
+    """fetched High Voltage Node data for a quarter
+    Args:
+        targetFilePath (str): date for which quarter is to be extracted
+    Returns:
+        List[IConstraintSummary]: list of High Voltage Node records fetched from the excel data
+    """
+    if isinstance(targetFilePath, str) and not(targetFilePath == ''):
         return []
 
     # read excel file

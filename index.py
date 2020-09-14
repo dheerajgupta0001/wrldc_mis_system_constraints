@@ -8,10 +8,10 @@ This script creates the data mart for system constraints data in weekly report
 import argparse
 import datetime as dt
 from src.config.appConfig import getConfig
-from src.fetchers.transmissionConstraintFetcher import fetchTransmissionConstraintForDate
-from src.fetchers.ictConstraintFetcher import fetchICTconstraintForDate
-from src.fetchers.nodeHighVoltageFetcher import fetchHighVoltageForDate
-from src.fetchers.nodeLowVoltageFetcher import fetchLowVoltageForDate
+from src.fetchers.transmissionConstraintFetcher import fetchTransmissionConstraintForDate, getTransmissionConstraintFilePath
+from src.fetchers.ictConstraintFetcher import fetchIctConstraintForDate, getIctConstraintFilePath
+from src.fetchers.nodeHighVoltageFetcher import fetchHighVoltageForDate, getHighVoltageNodeFilePath
+from src.fetchers.nodeLowVoltageFetcher import fetchLowVoltageForDate, getLowVoltageNodeFilePath
 from src.repos.insertTransmissionRecord import TransmissionSummaryRepo
 from src.repos.insertIctRecord import IctSummaryRepo
 from src.repos.insertHighVoltageRecord import HighVoltageSummaryRepo
@@ -25,18 +25,21 @@ systemConstraintFolderPath = appConfig['systemConstraintFolderPath']
 appDbConnStr = appConfig['appDbConStr']
 
 # transmission constraints data fetcher
-transmissionData = fetchTransmissionConstraintForDate(
-    systemConstraintFolderPath)
+transmissionConstraintsFilePath = getTransmissionConstraintFilePath(systemConstraintFolderPath)
+transmissionData = fetchTransmissionConstraintForDate(transmissionConstraintsFilePath)
 # print(type(transmissionData))
 
 # ict constraints data fetcher
-ictData = fetchICTconstraintForDate(systemConstraintFolderPath)
+ictConstraintsFilePath = getIctConstraintFilePath(systemConstraintFolderPath)
+ictData = fetchIctConstraintForDate(ictConstraintsFilePath)
 
 # node experiencing high voltage data fetcher
-highVoltageData = fetchHighVoltageForDate(systemConstraintFolderPath)
+highVoltageFilePath = getHighVoltageNodeFilePath(systemConstraintFolderPath)
+highVoltageData = fetchHighVoltageForDate(highVoltageFilePath)
 
 # node experiencing high voltage data fetcher
-lowVoltageData = fetchLowVoltageForDate(systemConstraintFolderPath)
+lowVoltageFilePath = getLowVoltageNodeFilePath(systemConstraintFolderPath)
+lowVoltageData = fetchLowVoltageForDate(lowVoltageFilePath)
 
 
 # get the instance of Transmission repository

@@ -4,22 +4,31 @@ from typing import List
 import os
 import pandas as pd
 
+def getLowVoltageNodeFilePath(lowNodeFolderPath: str) -> str:
+    """get the file path of Low Voltage Node excel file from an input folder
 
-def fetchLowVoltageForDate(LowNodeFolderPath: str) -> List[IConstraintSummary]:
-    """fetched transmission constraint data for a quarter
     Args:
-        targetDt (dt.datetime): date for which quarter is to be extracted
+        lowNodeFolderPath (str): path of folder to search for
+
     Returns:
-        List[IPairAngleSummary]: list of transmission records fetched from the excel data
+        str: file path of desired excel file that contains Low Voltage Node Data
     """
     # sample excel filename - Nodes Experiencing Low Voltage.xlsx
     targetFilename = 'Nodes Experiencing Low Voltage.xlsx'
-    targetFilePath = os.path.join(LowNodeFolderPath, targetFilename)
+    targetFilePath = os.path.join(lowNodeFolderPath, targetFilename)
 
-    # check if excel file is present
-    if not os.path.isfile(targetFilePath):
+    return targetFilePath
+
+def fetchLowVoltageForDate(targetFilePath: str) -> List[IConstraintSummary]:
+    """fetched Low Voltage Node data for a quarter
+    Args:
+        targetFilePath (str): date for which quarter is to be extracted
+    Returns:
+        List[IConstraintSummary]: list of Low Voltage Node records fetched from the excel data
+    """
+    if isinstance(targetFilePath, str) and not(targetFilePath == ''):
         return []
-
+    
     # read excel file
     excelDf = pd.read_excel(targetFilePath)
     del excelDf['Sl. No']
