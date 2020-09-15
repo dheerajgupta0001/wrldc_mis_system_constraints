@@ -13,6 +13,7 @@ from src.repos.insertIctRecord import IctSummaryRepo
 from src.repos.insertHighVoltageRecord import HighVoltageSummaryRepo
 from src.repos.insertLowVoltageRecord import LowVoltageSummaryRepo
 from src.typeDefs.systemConstraintsSummary import IConstraintSummary
+from waitress import serve
 
 app = Flask(__name__)
 
@@ -99,4 +100,8 @@ def lowVoltageNode():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    serverMode: str = appConfig['mode']
+    if serverMode.lower() == 'd':
+        app.run(host="0.0.0.0", port=int(appConfig['flaskPort']), debug=True)
+    else:
+        serve(app, host='0.0.0.0', port=int(appConfig['flaskPort']), threads=1)
