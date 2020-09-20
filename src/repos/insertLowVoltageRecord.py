@@ -40,7 +40,6 @@ class LowVoltageSummaryRepo():
             colNames = ['START_DATE', 'END_DATE', 'NODES', 'SEASON_ANTECEDENT', 'DESCRIPTION_CONSTRAINTS']
             # get cursor for raw data table
             cursor=connection.cursor()
-            print("connection version :{0}".format(connection.version))
 
             # text for sql place holders
             sqlPlceHldrsTxt = ','.join([':{0}'.format(x+1)
