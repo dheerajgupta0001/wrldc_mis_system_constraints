@@ -31,7 +31,7 @@ def fetchTransmissionConstraintForDate(targetFilePath: str) -> List[IConstraintS
         List[transmissionRecords]: list of transmission records fetched from the excel data
     """
     
-    if isinstance(targetFilePath, str) and not(targetFilePath == ''):
+    if isinstance(targetFilePath, str) and (targetFilePath == ''):
         return []
 
     # read excel file

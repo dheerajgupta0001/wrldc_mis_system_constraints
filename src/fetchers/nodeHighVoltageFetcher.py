@@ -26,7 +26,7 @@ def fetchHighVoltageForDate(targetFilePath: str) -> List[IConstraintSummary]:
     Returns:
         List[IConstraintSummary]: list of High Voltage Node records fetched from the excel data
     """
-    if isinstance(targetFilePath, str) and not(targetFilePath == ''):
+    if isinstance(targetFilePath, str) and (targetFilePath == ''):
         return []
 
     # read excel file

@@ -27,7 +27,7 @@ def fetchIctConstraintForDate(targetFilePath: str) -> List[IConstraintSummary]:
     Returns:
         List[IConstraintSummary]: list of ict records fetched from the excel data
     """
-    if isinstance(targetFilePath, str) and not(targetFilePath == ''):
+    if isinstance(targetFilePath, str) and (targetFilePath == ''):
         return []
 
     # read excel file
